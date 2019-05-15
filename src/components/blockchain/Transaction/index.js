@@ -16,13 +16,14 @@ import {hextoString} from "@tronscan/client/src/utils/bytes";
 import {Alert} from "reactstrap";
 import {setLanguage} from "../../../actions/app"
 import queryString from 'query-string';
+const xhr = require("axios");
 
 
 class Transaction extends React.Component {
 
   constructor() {
     super();
-
+    this.apiUrl = process.env.API_URL;
     this.state = {
       loading: true,
       notFound: false,
@@ -60,6 +61,13 @@ class Transaction extends React.Component {
     }
   }
 
+  async getTransactionByWallet(hash) {
+      var url = new URL(this.apiUrl);
+      url.port = '9090';
+      let {data} = await xhr.get(url + 'wallet/gettransactionbyid?value=' + hash);
+      return data;
+  }
+
   async load(id) {
 
     this.setState({loading: true, transaction: {hash: id}});
@@ -71,6 +79,15 @@ class Transaction extends React.Component {
         });
         return;
     }
+    if (transaction.contractType == 31) {
+        let transactionRaw = await this.getTransactionByWallet(id);
+        transaction.contractData.contract_address = transactionRaw.raw_data.contract[0].parameter.value.contract_address;
+        transaction.contractData.owner_address = transactionRaw.raw_data.contract[0].parameter.value.owner_address;
+
+        transaction.data = transactionRaw.raw_data.contract[0].parameter.value.data;
+        //transaction.contractData.from = transactionRaw.raw_data.contract.parameter.value.contract_address;
+    }
+    console.log(transaction);
 
     this.setState({
       loading: false,

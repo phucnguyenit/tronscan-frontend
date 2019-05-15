@@ -43,7 +43,7 @@ export default function Contract({contract}) {
 
     let TokenIDList = [];
     TokenIDList.push(contract)
-    let tokenIdData  = rebuildList(TokenIDList,'asset_name','amount')[0]
+    let tokenIdData  = rebuildList(TokenIDList,'asset_name','amount')[0];
     if(contract.contractType){
         switch (contract.contractType.toUpperCase()) {
             case "TRANSFERCONTRACT":
@@ -348,11 +348,11 @@ export default function Contract({contract}) {
                                     <div className="flex1">
                                         <div className="d-flex border-bottom content_item">
                                             <div className="content_name">{tu('contract_triggers_owner_address')}:</div>
-                                            <div className="flex1"><AddressLink address={contract['owner_address']}/></div>
+                                            <div className="flex1">{contract['owner_address']}</div>
                                         </div>
                                         <div className="d-flex border-bottom content_item">
                                             <div className="content_name">{tu('contract_address')}:</div>
-                                            <div className="flex1"><AddressLink address={contract['contract_address']} isContract={true}/></div>
+                                            <div className="flex1">{contract['contract_address']}</div>
                                         </div>
                                         <div className="d-flex content_item">
                                             <div className="content_name">{tu('value')}:</div>
@@ -362,6 +362,12 @@ export default function Contract({contract}) {
                                                     :<TRXPrice amount={0}/>
                                             }
                                         </div>
+                                        {contract.contract_note &&
+                                        <div className="d-flex content_item">
+                                            <div className="content_name">{tu('data')}:</div>
+                                            <div className="flex1">{decodeURIComponent(contract.contract_note)}</div>
+                                        </div>
+                                        }
                                     </div>
                                 </div>
                                 {contract.tokenTransferInfo && contract.tokenTransferInfo.decimals !==undefined && contract.tokenTransferInfo.symbol !==undefined && <div className="d-flex border-bottom pt-2">
@@ -394,62 +400,6 @@ export default function Contract({contract}) {
                                                 <TokenTRC20Link name={contract.tokenTransferInfo['name']} address={contract.tokenTransferInfo['contract_address']} namePlus={contract.tokenTransferInfo['name'] + ' (' + contract.tokenTransferInfo['symbol'] + ')'}/></div>
                                         </div>
 
-                                    </div>
-                                </div>}
-
-                                {JSON.stringify(contract.internal_transactions) != '{}' && <div className="d-flex border-bottom pt-2">
-                                    <div className="content_box_name">{tu('Internal_txns')}</div>
-                                    <div className="flex1">
-                                        {
-                                            Object.keys(contract.internal_transactions).map((o,index) => {
-                                                let vdom = []
-                                                contract.internal_transactions[o].map((item,cindex) => {
-                                                    let tokenInfo = rebuildList(JSON.parse(item.value_info_list), 'token_id', 'call_value')[0]
-
-                                                    vdom.push(
-                                                        <div className={'d-flex align-items-center content_item'}>
-                                                            {/* {
-                                  (index> 0&& cindex== 0) &&
-                                  <img src={require('../../../images/tip.png')} className="mr-2" width='13px' height='11px'/>
-                                }
-                                {
-                                  (index> 0&& cindex != 0) &&
-                                  <div className="mr-2" style={{width: '13px', height: '11px'}}/>
-                                } */}
-                                                            <div className="d-flex">
-                                                                <div className="mr-1">{tu('transfers')}</div>
-                                                                <div className="mr-1">{tokenInfo.map_amount +' '+tokenInfo.map_token_name_abbr}</div>
-                                                                <div className="mr-1">{tu('from')}</div>
-                                                                <div className="mr-1" style={{width: '150px'}}><ContractLink address={item['caller_address']}/></div>
-                                                                <div className="mr-1">{tu('to')}</div>
-                                                                <div className="mr-1" style={{width: '150px'}}><ContractLink address={item['transfer_to_address']}/></div>
-                                                            </div>
-                                                        </div>
-                                                    )
-                                                })
-                                                return vdom
-                                            })
-                                        }
-                                    </div>
-                                </div>}
-
-                                {JSON.stringify(contract.cost) != '{}' &&
-                                <div className="d-flex border-bottom pt-2">
-                                    <div className="content_box_name">{tu('Fee_Consumption')}</div>
-                                    <div className="flex1">
-                                        {
-                                            Object.keys(contract.cost).map((c)=>{
-                                                return (c==='energy_fee'||c==='net_fee')?
-                                                    <div className="d-flex border-bottom content_item" key={c}>
-                                                        <div className="content_name mr-2" style={{width: 'auto'}}>{tu(c)}:</div>
-                                                        <div className="flex1">{contract.cost[c]/1000000} TRX</div>
-                                                    </div>:
-                                                    <div className="d-flex border-bottom content_item" key={c}>
-                                                        <div className="content_name mr-2" style={{width: 'auto'}}>{tu(c)}:</div>
-                                                        <div className="flex1">{contract.cost[c]}</div>
-                                                    </div>
-                                            })
-                                        }
                                     </div>
                                 </div>}
 

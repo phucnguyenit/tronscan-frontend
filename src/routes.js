@@ -64,7 +64,8 @@ export const routes = [
         label: "nodes",
         icon: "fa fa-server",
         path: "/blockchain/nodes",
-        component: NodesAsync
+        component: NodesAsync,
+        showInMenu: false
       },
       {
         path: "/blockchain/blocks",
@@ -107,7 +108,8 @@ export const routes = [
         label: "statistics",
         icon: `fa fa-chart-pie`,
         path: "/blockchain/stats",
-        component: StatisticsAsync
+        component: StatisticsAsync,
+        showInMenu: false
       },
       {
         label: "statistics",
@@ -133,11 +135,12 @@ export const routes = [
         path: "/blockchain/foundation",
         label: "foundation",
         icon: "fa fa-address-book",
-        component: FoundationAsync
+        component: FoundationAsync,
+        showInMenu: false
       }
     ]
   },
-  {
+  /*{
     path: "/contracts",
     label: "contracts",
     icon: "fa fa-file-contract",
@@ -147,16 +150,18 @@ export const routes = [
         label: "contracts",
         icon: "fa fa-file",
         path: "/contracts/contracts",
-        component: Contracts
+        component: Contracts,
+        showInMenu: false
       },
       {
         path: "/contracts/contract-triggers",
         label: "trigger",
         icon: "fa fa-users-cog",
-        component: ContractTrans
+        component: ContractTrans,
+        showInMenu: false
       }
     ]
-  },
+  },*/
   { path: "/block/:id", label: "block", component: Block, showInMenu: false },
   {
     path: "/transaction/:hash",
@@ -182,7 +187,7 @@ export const routes = [
     component: SmartContract,
     showInMenu: false
   },
-  {
+  /*{
     path: "/tokens",
     label: "tokens",
     icon: "fas fa-coins",
@@ -282,7 +287,7 @@ export const routes = [
     //icon: "fas fa-exchange-alt",
     component: Notice,
     showInMenu: false
-  },
+  },*/
   {
     label: "TRONSR",
     path: "/sr",
@@ -295,7 +300,7 @@ export const routes = [
         icon: "fa fa-rocket",
         component: RepresentativesAsync
       },
-      {
+      /*{
         label: "votes",
         path: "/sr/votes",
         icon: "fas fa-comment",
@@ -306,7 +311,7 @@ export const routes = [
         path: "/sr/committee",
         icon: "fas fa-users",
         component: Committee
-      }
+      }*/
     ]
   },
   {

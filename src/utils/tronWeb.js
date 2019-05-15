@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import TronWeb from "tronweb";
 import {TransferAssetContract} from "@tronscan/client/src/protocol/core/Contract_pb";
 import LedgerBridge from "../hw/ledger/LedgerBridge";
-import {transactionJsonToProtoBuf} from "@tronscan/client/src/utils/tronWeb";
+import {transactionJsonToProtoBuf} from "@tronscan/client/src/utils/transactionBuilder";
 import {byteArray2hexStr} from "@tronscan/client/src/utils/bytes";
 
 import {Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
