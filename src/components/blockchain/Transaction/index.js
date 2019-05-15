@@ -81,13 +81,18 @@ class Transaction extends React.Component {
         });
         return;
     }
-    if (transaction.contractType == 31) {
+    if (transaction.contractType == 31 ) {
         let transactionRaw = await this.getTransactionByWallet(id);
         transaction.contractData.contract_address = transactionRaw.raw_data.contract[0].parameter.value.contract_address;
         transaction.contractData.owner_address = transactionRaw.raw_data.contract[0].parameter.value.owner_address;
         let dataRaw = transactionRaw.raw_data.contract[0].parameter.value.data;
-        console.log(toDecimal(dataRaw.substring(dataRaw.length - 8, dataRaw.length)));
-        transaction.contractData.call_value = toDecimal("0x" + dataRaw.substring(dataRaw.length - 8, dataRaw.length));
+        //console.log(toDecimal(dataRaw.substring(dataRaw.length - 8, dataRaw.length)));
+        let dataValue = transactionRaw.raw_data.contract[0].parameter.value;
+
+        if (typeof dataValue.call_value === 'undefined')
+            transaction.contractData.call_value = toDecimal("0x" + dataRaw.substring(dataRaw.length - 8, dataRaw.length));
+        else
+            transaction.contractData.call_value = dataValue.call_value;
         transaction.data = dataRaw
         //transaction.contractData.from = transactionRaw.raw_data.contract.parameter.value.contract_address;
     }
