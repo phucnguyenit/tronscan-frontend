@@ -16,7 +16,9 @@ import {hextoString} from "@tronscan/client/src/utils/bytes";
 import {Alert} from "reactstrap";
 import {setLanguage} from "../../../actions/app"
 import queryString from 'query-string';
+import {toDecimal} from 'tronweb';
 const xhr = require("axios");
+
 
 
 class Transaction extends React.Component {
@@ -83,11 +85,12 @@ class Transaction extends React.Component {
         let transactionRaw = await this.getTransactionByWallet(id);
         transaction.contractData.contract_address = transactionRaw.raw_data.contract[0].parameter.value.contract_address;
         transaction.contractData.owner_address = transactionRaw.raw_data.contract[0].parameter.value.owner_address;
-
-        transaction.data = transactionRaw.raw_data.contract[0].parameter.value.data;
+        let dataRaw = transactionRaw.raw_data.contract[0].parameter.value.data;
+        console.log(toDecimal(dataRaw.substring(dataRaw.length - 8, dataRaw.length)));
+        transaction.contractData.call_value = toDecimal("0x" + dataRaw.substring(dataRaw.length - 8, dataRaw.length));
+        transaction.data = dataRaw
         //transaction.contractData.from = transactionRaw.raw_data.contract.parameter.value.contract_address;
     }
-    console.log(transaction);
 
     this.setState({
       loading: false,

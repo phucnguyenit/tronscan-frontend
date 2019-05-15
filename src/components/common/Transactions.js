@@ -114,7 +114,6 @@ class Transactions extends React.Component {
         total = data.total,
             rangeTotal = data.rangeTotal
     }
-    console.info("Tx:" + transactions);
 
     this.setState({
         transactions,
